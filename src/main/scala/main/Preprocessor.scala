@@ -1,23 +1,28 @@
 package main
 
 import java.io.PrintWriter
+import org.apache.spark.{SparkConf, SparkContext}
 
-import collection.mutable.HashMap
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
 
-import scala.collection.JavaConverters._
-
+/*
+* Preprocessor will tokenize, remove stopwords and perform stemming, to create a file that can then be used to find the
+* tfidf values.
+ */
 object Preprocessor {
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("Simple Application").setMaster("local[1]")
     val sc = new SparkContext(conf)
 
+    //process the directory with the positive reviews
     processInputFiles("/home/christos/BigDataProject/data/train/pos", "/home/christos/BigDataProject/data/train/posFile.txt")
+    //process the directory with the negative reviews
     processInputFiles("/home/christos/BigDataProject/data/train/neg", "/home/christos/BigDataProject/data/train/negFile.txt")
   }
 
+  /*
+  * Input: Directory with text files
+  * Output: Output file with the results
+   */
   def processInputFiles (dirName: String, outFileName: String) {
     val inFiles = new java.io.File(dirName).listFiles()
     val outFile = new PrintWriter(outFileName)
