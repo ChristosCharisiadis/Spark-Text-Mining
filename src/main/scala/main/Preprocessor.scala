@@ -9,9 +9,9 @@ import org.apache.spark.SparkConf
 
 import scala.collection.JavaConverters._
 
-object Classifier {
+object Preprocessor {
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("Simple Application")
+    val conf = new SparkConf().setAppName("Simple Application").setMaster("local[1]")
     val sc = new SparkContext(conf)
 
     processInputFiles("/home/christos/BigDataProject/data/train/pos", "/home/christos/BigDataProject/data/train/posFile.txt")
