@@ -1,12 +1,7 @@
 package main
 
-import java.io.{File, FileWriter}
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
 import org.apache.spark.mllib.classification.NaiveBayes
-import org.apache.spark.mllib.classification.NaiveBayesModel
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
 
@@ -15,7 +10,7 @@ object NaiveBayesClassifier {
     val conf = new SparkConf().setAppName("Simple Application").setMaster("local[4]")
     val sc = new SparkContext(conf)
 
-    val vectors = sc.textFile("/home/christos/BigDataProject/data/train/vectors2.txt")
+    val vectors = sc.textFile("/home/christos/BigDataProject/data/train/vectors2000.txt")
 
     val parsedData = vectors.map { line =>
     val parts = line.split(",")

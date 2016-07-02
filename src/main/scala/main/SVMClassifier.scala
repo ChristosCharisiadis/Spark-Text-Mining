@@ -1,13 +1,11 @@
 package main
 
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.mllib.tree.DecisionTree
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
-import org.apache.spark.mllib.tree.impurity.Gini
-import org.apache.spark.mllib.tree.configuration.Algo._
+import org.apache.spark.mllib.classification.SVMWithSGD
 
-object DecisionTreeClassifier {
+object SVMClassifier {
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("Simple Application").setMaster("local[4]")
     val sc = new SparkContext(conf)
@@ -23,16 +21,13 @@ object DecisionTreeClassifier {
     val training = splits(0)
     val test = splits(1)
 
-    val maxDepth = 5
-    val model = DecisionTree.train(training, Classification, Gini, maxDepth)
+    val numIterations = 100
+    val model = SVMWithSGD.train(training, numIterations)
 
     val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))
     val accuracy = 1.0 * predictionAndLabel.filter(x => x._1 == x._2).count() / test.count()
 
     println (accuracy)
-
-
-    sc.stop()
 
   }
 
