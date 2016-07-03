@@ -9,6 +9,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.mllib.tree.RandomForest
 import org.apache.spark.mllib.tree.configuration.Strategy
 import org.apache.spark.mllib.util.MLUtils._
+import scala.util.Random
 
 /*
 * RandomForest Classifier
@@ -24,7 +25,7 @@ object RandomForestClassifier {
     val maxDepth = args(3).toInt
     val treeCount = args(4).toInt
     val featureSubsetStrategy = "auto"
-    val seed = 123
+    val seed = Random.nextInt(1000)
     val algorithm = Classification
     val impurity = Gini
 
@@ -42,7 +43,7 @@ object RandomForestClassifier {
     }
 
     // start k-Fold cross validation
-    val cvData = kFold(parsedData, kValue, 42)
+    val cvData = kFold(parsedData, kValue, Random.nextInt(1000))
     val accuracies = cvData.map { case (train, test) => {
       val model = RandomForest.trainClassifier(train, new Strategy(algorithm, impurity, maxDepth), treeCount, featureSubsetStrategy, seed)
       val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))

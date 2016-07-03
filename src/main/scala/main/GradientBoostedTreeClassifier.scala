@@ -7,6 +7,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.mllib.tree.GradientBoostedTrees
 import org.apache.spark.mllib.tree.configuration.BoostingStrategy
 import org.apache.spark.mllib.util.MLUtils._
+import scala.util.Random
 
 /*
 * GradientBoostedTree Classifier
@@ -43,7 +44,7 @@ object GradientBoostedTreeClassifier {
     }
 
     // start k-Fold cross validation
-    val cvData = kFold(parsedData, kValue, 42)
+    val cvData = kFold(parsedData, kValue, Random.nextInt(1000))
     val accuracies = cvData.map { case (train, test) => {
       val model = GradientBoostedTrees.train(train, boostingStrategy)
       val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))

@@ -6,6 +6,7 @@ import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.classification.SVMWithSGD
 import org.apache.spark.mllib.util.MLUtils._
+import scala.util.Random
 
 /*
 * SVM Classifier
@@ -33,7 +34,7 @@ object SVMClassifier {
     }
 
     // start k-Fold cross validation
-    val cvData = kFold(parsedData, kValue, 42)
+    val cvData = kFold(parsedData, kValue, Random.nextInt(1000))
     val accuracies = cvData.map { case (train, test) => {
       val model = SVMWithSGD.train(train, iterations)
       val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))

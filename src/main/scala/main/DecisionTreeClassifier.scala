@@ -8,6 +8,7 @@ import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.tree.impurity.Gini
 import org.apache.spark.mllib.tree.configuration.Algo._
 import org.apache.spark.mllib.util.MLUtils.kFold
+import scala.util.Random
 
 /*
 * DecisionTree Classifier
@@ -35,7 +36,7 @@ object DecisionTreeClassifier {
     }
 
     // start k-Fold cross validation
-    val cvData = kFold(parsedData, kValue, 42)
+    val cvData = kFold(parsedData, kValue, Random.nextInt(1000))
     val accuracies = cvData.map { case (train, test) => {
       val model = DecisionTree.train(train, Classification, Gini, maxDepth)
       val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))

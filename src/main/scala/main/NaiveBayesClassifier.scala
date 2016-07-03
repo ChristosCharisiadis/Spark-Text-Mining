@@ -6,6 +6,7 @@ import org.apache.spark.mllib.classification.NaiveBayes
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.util.MLUtils.kFold
+import scala.util.Random
 
 /*
 * NaiveBayes Classifier
@@ -35,7 +36,7 @@ object NaiveBayesClassifier {
     }
 
     // start k-Fold cross validation
-    val cvData = kFold(parsedData, kValue, 42)
+    val cvData = kFold(parsedData, kValue, Random.nextInt(1000))
     val accuracies = cvData.map { case (train, test) => {
       val model = NaiveBayes.train(train, lambda = lValue, modelType = modelValue)
       val predictionAndLabel = test.map(p => (model.predict(p.features), p.label))
