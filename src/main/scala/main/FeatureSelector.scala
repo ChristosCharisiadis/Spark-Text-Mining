@@ -55,8 +55,5 @@ object FeatureSelector {
     }
 
     sc.stop()
-
   }
-
 }
-

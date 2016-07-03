@@ -3,7 +3,6 @@ package main
 import java.io.PrintWriter
 import org.apache.spark.{SparkConf, SparkContext}
 
-
 /*
 * Preprocessor will tokenize, remove stopwords and perform stemming, to create a file that can then be used to find the
 * tfidf values.
@@ -39,4 +38,3 @@ object Preprocessor {
     outFile.close()
   }
 }
-
