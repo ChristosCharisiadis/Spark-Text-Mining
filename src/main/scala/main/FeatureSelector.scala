@@ -15,7 +15,7 @@ object FeatureSelector {
     val conf = new SparkConf().setAppName("Simple Application").setMaster("local[1]")
     val sc = new SparkContext(conf)
 
-    val documents = sc.textFile("/home/christos/BigDataProject/data/train/headinput.txt")
+    val documents = sc.textFile("/home/christos/BigDataProject/data/train/inputfile200.txt")
     val documentsN: Int = documents.count().toInt
     val terms = documents.flatMap(x => x.split(" ")).distinct().collect().sortBy(identity)
     val termsN: Int = terms.length
@@ -27,7 +27,7 @@ object FeatureSelector {
       idfMap += (term -> idf)
     }
 
-    val outFileName = "/home/christos/BigDataProject/data/train/vectors2.txt"
+    val outFileName = "/home/christos/BigDataProject/data/train/vectors200.txt"
     new File(outFileName).delete()
 
     // calculate tf and tfidf and write them to the output file
